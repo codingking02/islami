@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:islami/radio_name.dart';
 import 'package:islami/widgets/functions.dart';
 import 'package:islami/widgets/widgets.dart';
 
@@ -13,6 +14,8 @@ class IslamiRadio extends StatefulWidget {
 class _IslamiRadioState extends State<IslamiRadio> {
   bool isPressed1 = true;
   bool isPressed2 = false;
+  final List<bool> start = List.filled(radioNames.length, false);
+  final List<bool> mute = List.filled(radioNames.length, false);
 
   void onTap1() {
     setState(() {
@@ -78,13 +81,30 @@ class _IslamiRadioState extends State<IslamiRadio> {
                   ),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: 15,
+                      itemCount: radioNames.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: EdgeInsets.only(
                             bottom: getMediaQueryHeight(0.02, context),
                           ),
-                          child: getRadio(context),
+                          child: getRadio(
+                            isPressed1 == true
+                                ? radioNames[index]
+                                : reciters[index],
+                            () {
+                              setState(() {
+                                start[index] = !start[index];
+                              });
+                            },
+                            () {
+                              setState(() {
+                                mute[index] = !mute[index];
+                              });
+                            },
+                            start[index],
+                            mute[index],
+                            context,
+                          ),
                         );
                       },
                     ),

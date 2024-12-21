@@ -16,7 +16,8 @@ Widget getRadioType(
           onTap: onTap1,
           child: Container(
             padding: EdgeInsets.symmetric(
-                vertical: getMediaQueryHeight(0.01, context)),
+              vertical: getMediaQueryHeight(0.01, context),
+            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: isPressed1 == true
@@ -41,7 +42,8 @@ Widget getRadioType(
           onTap: onTap2,
           child: Container(
             padding: EdgeInsets.symmetric(
-                vertical: getMediaQueryHeight(0.01, context)),
+              vertical: getMediaQueryHeight(0.01, context),
+            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: isPressed2 == false
@@ -65,7 +67,14 @@ Widget getRadioType(
   );
 }
 
-Widget getRadio(BuildContext context) {
+Widget getRadio(
+  String text,
+  void Function() onTap1,
+  void Function() onTap2,
+  bool isPressed1,
+  bool isPressed2,
+  BuildContext context,
+) {
   return Stack(
     alignment: Alignment.center,
     children: [
@@ -82,7 +91,7 @@ Widget getRadio(BuildContext context) {
           ),
         ),
         child: Text(
-          'Reciters',
+          text,
           style: TextStyle(
             fontFamily: 'jannalt',
             fontSize: 20,
@@ -92,26 +101,45 @@ Widget getRadio(BuildContext context) {
           textAlign: TextAlign.center,
         ),
       ),
-      Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: Image.asset('assets/mosque.png'),
-      ),
+      isPressed1 == false
+          ? Positioned(
+              bottom: 0,
+              child: Image.asset('assets/mosque.png'),
+            )
+          : Positioned(
+              bottom: getMediaQueryHeight(-0.04, context),
+              child: Image.asset('assets/waves.png'),
+            ),
       Positioned(
         bottom: getMediaQueryHeight(0.02, context),
         child: Padding(
-          padding: EdgeInsets.only(left: getMediaQueryWidth(0.14, context)),
+          padding: EdgeInsets.only(
+            left: getMediaQueryWidth(0.14, context),
+          ),
           child: Row(
             children: [
-              SvgPicture.asset(
-                'assets/start.svg',
+              InkWell(
+                onTap: onTap1,
+                child: isPressed1 == false
+                    ? SvgPicture.asset(
+                        'assets/start.svg',
+                      )
+                    : SvgPicture.asset(
+                        'assets/pause.svg',
+                      ),
               ),
               SizedBox(
                 width: getMediaQueryWidth(0.05, context),
               ),
-              SvgPicture.asset(
-                'assets/sound.svg',
+              InkWell(
+                onTap: onTap2,
+                child: isPressed2 == false
+                    ? SvgPicture.asset(
+                        'assets/sound.svg',
+                      )
+                    : SvgPicture.asset(
+                        'assets/mute.svg',
+                      ),
               ),
             ],
           ),
